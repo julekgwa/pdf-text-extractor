@@ -1,0 +1,3 @@
+#pull data from k8s secrets or configMap set in Deployment, Pod etc
+sentry:
+  dns: SENTRY_DNS

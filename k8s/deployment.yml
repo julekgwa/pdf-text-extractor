@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jl-ms-pdf-text-extractor
+  labels:
+    app: backend
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      project: jl-ms-pdf-text-extractor
+  template:
+    metadata:
+      name: jl-ms-pdf-text-extractor
+      labels:
+        project: jl-ms-pdf-text-extractor
+    spec:
+      containers:
+        - name: jl-ms-pdf-text-extractor
+          image: julekgwa/pdf-text-extractor
+          env:
+            - name: SENTRY_DNS
+              valueFrom:
+                configMapKeyRef:
+                  key: sentry
+                  name: jl-ms-pdf-text-extractor
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jl-ms-pdf-text-extractor
+spec:
+  selector:
+    project: jl-ms-pdf-text-extractor
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jl-ms-pdf-text-extractor
+data:
+  sentry: ""

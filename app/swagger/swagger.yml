@@ -1,0 +1,68 @@
+openapi: 3.0.3
+servers:
+  - url: '/api/v1'
+info:
+  description: Extract text from PDF file
+  version: 1.0.0
+  title: PDF Text extractor
+paths:
+  /extract-text:
+    post:
+      tags:
+        - PDF
+      description: Extract text from pdf file
+      operationId: extractText
+      requestBody:
+        $ref: '#/components/requestBodies/PdfRequestBody'
+      parameters:
+        - in: header
+          name: x-app-id
+          required: true
+          schema:
+            type: string
+            enum:
+              - scready
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidResponse'
+        default:
+          description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailureResponse'
+
+components:
+  requestBodies:
+    PdfRequestBody:
+      description: file to be extracted
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            required:
+              - file
+            properties:
+              # 'file' will be the field name in this multipart request
+              file:
+                type: string
+                format: binary
+
+  schemas:
+    FailureResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    ValidResponse:
+      type: object
+      properties:
+        text:
+          type: string
+        status:
+          type: number
