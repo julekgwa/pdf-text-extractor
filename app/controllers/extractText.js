@@ -11,7 +11,7 @@ export const extractText = async (req, res) => {
 
     res.status(StatusCodes.OK).json({
       ok: true,
-      text,
+      text: text?.replace(/\n|\r\n|\r/g, ''),
     });
 
   } catch (error) {
