@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/node';
 import { StatusCodes } from 'http-status-codes';
 import { ERROR_MSG } from '../helpers/utils.js';
 import sharp from 'sharp';
-import readText from 'text-from-image';
+import tesseract from 'node-tesseract-ocr';
 export const extractTextFromImage = async (req, res) => {
 
   try {
@@ -11,11 +11,11 @@ export const extractTextFromImage = async (req, res) => {
     const buffer = await sharp(req.files[0].buffer).sharpen(13)
       .toBuffer();
 
-    const text = await readText(buffer);
+    const text = await tesseract.recognize(buffer);
 
     res.status(StatusCodes.OK).json({
       ok: true,
-      text: text?.replace(/\n|\r\n|\r/g, ''),
+      text: text?.replace(/\n|\r\n|\r/g, ' '),
     });
 
   } catch (error) {

@@ -1651,6 +1651,11 @@ node-fetch@^2.6.0:
   dependencies:
     whatwg-url "^5.0.0"
 
+node-tesseract-ocr@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/node-tesseract-ocr/-/node-tesseract-ocr-2.2.1.tgz#465fea1a1acd6720efb582d5f6c2bcbb82cce94d"
+  integrity sha512-Q9cD79JGpPNQBxbi1fV+OAsTxYKLpx22sagsxSyKbu1u+t6UarApf5m32uVc8a5QAP1Wk7fIPN0aJFGGEE9DyQ==
+
 nodemon@^2.0.16:
   version "2.0.16"
   resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.16.tgz#d71b31bfdb226c25de34afea53486c8ef225fdef"
