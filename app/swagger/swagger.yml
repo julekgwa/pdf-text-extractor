@@ -6,6 +6,26 @@ info:
   version: 1.0.0
   title: PDF Text extractor
 paths:
+  /login:
+      post:
+        tags:
+          - Auth
+        operationId: login
+        requestBody:
+            $ref: '#/components/requestBodies/AuthRequestBody'
+        responses:
+          200:
+            description: success
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AuthResponse'
+          default:
+            description: Failure
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/FailureResponse'
   /extract-text:
     post:
       tags:
@@ -35,9 +55,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FailureResponse'
+  /image-text:
+    post:
+      tags:
+        - PDF
+      description: Extract text from image
+      operationId: extractTextFromImage
+      requestBody:
+        $ref: '#/components/requestBodies/PdfRequestBody'
+      parameters:
+        - in: header
+          name: x-app-id
+          required: true
+          schema:
+            type: string
+            enum:
+              - scready
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidResponse'
+        default:
+          description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailureResponse'
 
 components:
   requestBodies:
+    AuthRequestBody:
+      description: Firebase user id
+      required: true
+      content:
+         application/json:
+          schema:
+            type: object
+            required:
+              - userId
+            properties:
+              userId:
+                type: string
     PdfRequestBody:
       description: file to be extracted
       required: true
@@ -66,3 +127,8 @@ components:
           type: string
         status:
           type: number
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string

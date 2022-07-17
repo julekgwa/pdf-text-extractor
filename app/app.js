@@ -6,11 +6,12 @@ import { extractText } from './controllers/extractText.js';
 import { StatusCodes } from 'http-status-codes';
 import swaggerUI from 'swagger-ui-express';
 import cors from 'cors';
-// import { initializeSentry } from './helpers/utils.js';
-import { Sentry } from '@bubbleswapio/sentry';
+import { initializeSentry } from './helpers/utils.js';
+import { extractTextFromImage } from './controllers/extractTextFromImage.js';
 
 const routes = {
   extractText,
+  extractTextFromImage,
 };
 
 const makeApp = async () => {
@@ -20,7 +21,7 @@ const makeApp = async () => {
   const connect = connector(routes, apiDescription);
   const app = express();
 
-  Sentry.initializeSentry(app);
+  initializeSentry(app);
   app.use(express.json());
   app.use(cors());
   app.use(
